@@ -63,7 +63,7 @@
 			<div class="item-bt-1-not-last-child">
 				<c:if test="${articles == null || articles.size() == 0}">
                         검색결과가 존재하지 않습니다.
-                    </c:if>
+                </c:if>
 				<c:forEach items="${articles}" var="article">
 					<!-- 게시물 아이템, first -->
 					<div class="px-4 py-8">

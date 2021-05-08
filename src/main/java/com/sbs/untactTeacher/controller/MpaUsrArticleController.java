@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.untactTeacher.dto.Article;
 import com.sbs.untactTeacher.dto.Board;
+import com.sbs.untactTeacher.dto.Reply;
 import com.sbs.untactTeacher.dto.ResultData;
+import com.sbs.untactTeacher.dto.Rq;
 import com.sbs.untactTeacher.service.ArticleService;
+import com.sbs.untactTeacher.service.ReplyService;
 import com.sbs.untactTeacher.util.Util;
 
 
@@ -24,17 +27,23 @@ public class MpaUsrArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
+	@Autowired
+	private ReplyService replyService;
+	
+	
 
 	@RequestMapping("/mpaUsr/article/detail")
 	public String showDetail(HttpServletRequest req, int id, String body) {
 		Article article = articleService.getForPrintArticleById(id);
 		
+		List<Reply> replies = replyService.getForPrintRepliesByRelTypeCodeAndRelId("article", id);
 		if(article == null) {
 			return Util.msgAndBack(req, id+"번 게시물은 존재하지 않습니다.");
 		}
 		
 		Board board = articleService.getBoardById(article.getBoardId());
 		
+		req.setAttribute("replies", replies);
 		req.setAttribute("board", board);
 		req.setAttribute("article", article);
 		
@@ -65,7 +74,9 @@ public class MpaUsrArticleController {
 			return Util.msgAndBack(req, "내용을 입력해주세요.");
 		}
 		
-		int memberId = 3; //임시
+		Rq rq = (Rq)req.getAttribute("rq");
+		
+		int memberId = rq.getLoginedMemberId();
 
 		ResultData WriteRd =  articleService.writeArticle(boardId, memberId,title, body);
 		
@@ -104,7 +115,6 @@ public class MpaUsrArticleController {
 	}
 
 	@RequestMapping("/mpaUsr/article/doDelete")
-
 	public String doDelete(HttpServletRequest req, Integer id) {
 		if (Util.isEmpty(id)) {
 			return Util.msgAndBack(req, "id를 입력해주세요.");
