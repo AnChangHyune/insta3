@@ -1,17 +1,14 @@
 package com.sbs.untactTeacher.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.untactTeacher.dto.Article;
-import com.sbs.untactTeacher.dto.Board;
+import com.sbs.untactTeacher.dto.Reply;
 import com.sbs.untactTeacher.dto.ResultData;
 import com.sbs.untactTeacher.dto.Rq;
 import com.sbs.untactTeacher.service.ArticleService;
@@ -25,42 +22,69 @@ public class MpaUsrReplyController {
 	@Autowired
 	private ReplyService replyService;
 	
-	@RequestMapping("/mpaUsr/reply/doDelete")
-	public String doDelete(HttpServletRequest req, int id) {
-		if (Util.isEmpty(id)) {
-			return Util.msgAndBack(req, "id를 입력해주세요.");
-		}
+	
+	  @RequestMapping("/mpaUsr/reply/doDeleteAjax")
+	    @ResponseBody
+	    public ResultData doDeleteAjax(HttpServletRequest req, int id, String redirectUri) {
+	        Reply reply = replyService.getReplyById(id);
 
-		ResultData rd = replyService.deleteReplyById(id);
+	        if ( reply == null ) {
+	            return new ResultData("F-1", "존재하지 않는 댓글입니다.");
+	        }
 
-		if (rd.isFail()) {
-			return Util.msgAndBack(req, rd.getMsg());
-		}
+	        Rq rq = (Rq)req.getAttribute("rq");
 
-		String redirectUri = "../article/detail?id=" + rd.getBody().get("id");
+	        if ( reply.getMemberId() != rq.getLoginedMemberId() ) {
+	            return new ResultData("F-1", "권한이 없습니다.");
+	        }
 
-		return Util.msgAndReplace(req, rd.getMsg(), redirectUri);
-	}
+	        ResultData deleteResultData = replyService.delete(id);
 
-	@RequestMapping("/mpaUsr/reply/doWrite")
-	public String showWrite(HttpServletRequest req, String relTypeCode, int relId, String body, String redirectUri) {
-		switch (relTypeCode) {
-		case "article":
-			Article article = articleService.getArticleById(relId);
-			if (article == null) {
-				return Util.msgAndBack(req, "해당 게시물이 존재하지 않습니다.");
-			}
-			break;
-		default:
-			return Util.msgAndBack(req, "올바르지 않은 relTypeCode 입니다.");
-		}
+	        return new ResultData("S-1", String.format("%d번 댓글이 삭제되었습니다.", id));
+	    }
 
-		Rq rq = (Rq) req.getAttribute("rq");
+	    @RequestMapping("/mpaUsr/reply/doDelete")
+	    public String doDelete(HttpServletRequest req, int id, String redirectUri) {
+	        Reply reply = replyService.getReplyById(id);
 
-		int memberId = rq.getLoginedMemberId();
+	        if ( reply == null ) {
+	            return Util.msgAndBack(req, "존재하지 않는 댓글입니다.");
+	        }
 
-		ResultData writeResultData = replyService.write(relTypeCode, relId, memberId, body);
+	        Rq rq = (Rq)req.getAttribute("rq");
 
-		return Util.msgAndReplace(req, writeResultData.getMsg(), redirectUri);
-	}
+	        if ( reply.getMemberId() != rq.getLoginedMemberId() ) {
+	            return Util.msgAndBack(req, "권한이 없습니다.");
+	        }
+
+	        ResultData deleteResultData = replyService.delete(id);
+
+	        return Util.msgAndReplace(req, deleteResultData.getMsg(), redirectUri);
+	    }
+
+	    @RequestMapping("/mpaUsr/reply/doWrite")
+	    public String doWrite(HttpServletRequest req, String relTypeCode, int relId, String body, String redirectUri) {
+	        switch ( relTypeCode ) {
+	            case "article":
+	                Article article = articleService.getArticleById(relId);
+	                if ( article == null ) {
+	                    return Util.msgAndBack(req, "해당 게시물이 존재하지 않습니다.");
+	                }
+	                break;
+	            default:
+	                return Util.msgAndBack(req, "올바르지 않은 relTypeCode 입니다.");
+	        }
+
+	        Rq rq = (Rq)req.getAttribute("rq");
+
+	        int memberId = rq.getLoginedMemberId();
+
+	        ResultData writeResultData = replyService.write(relTypeCode, relId, memberId, body);
+
+	        int newReplyId = (int)writeResultData.getBody().get("id");
+
+	        redirectUri = Util.getNewUri(redirectUri, "focusReplyId", newReplyId + "");
+
+	        return Util.msgAndReplace(req, writeResultData.getMsg(), redirectUri);
+	    }
 }

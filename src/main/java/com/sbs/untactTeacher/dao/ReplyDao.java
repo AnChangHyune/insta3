@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.untactTeacher.dto.Reply;
-import com.sbs.untactTeacher.dto.ResultData;
 
 @Mapper
 public interface ReplyDao {
@@ -19,8 +18,11 @@ public interface ReplyDao {
 			@Param("relTypeCode") String relTypeCode, 
 			@Param("relId") int relId);
 
-	void deleteReplyById(
+	void delete(
 			@Param("id") int id);
 
 	Reply getReplyById(@Param("id")  int id);
+
+	void modify(@Param("id") int id, @Param("body") String body);
+
 }

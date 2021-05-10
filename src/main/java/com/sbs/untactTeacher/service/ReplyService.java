@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.untactTeacher.dao.ReplyDao;
-import com.sbs.untactTeacher.dto.Article;
 import com.sbs.untactTeacher.dto.Reply;
 import com.sbs.untactTeacher.dto.ResultData;
-import com.sbs.untactTeacher.util.Util;
 
 @Service
 public class ReplyService {
@@ -27,16 +25,19 @@ public class ReplyService {
 		return replyDao.getForPrintRepliesByRelTypeCodeAndRelId(relTypeCode, relId);
 	}
 
-	public ResultData deleteReplyById(int id) {
-		Reply reply = getReplyById(id);
+	public ResultData delete(int id) {
 
-
-		replyDao.deleteReplyById(id);
+		replyDao.delete(id);
 
 		return new ResultData("S-1", id + "번 댓글이 삭제되었습니다.", "id", id);
 	}
 
-	private Reply getReplyById(int id) {
+	public Reply getReplyById(int id) {
 		return replyDao.getReplyById(id);
+	}
+
+	public ResultData modify(int id, String body) {
+		replyDao.modify(id, body);
+		return new ResultData("S-1", "댓글이 수정되었습니다.", "id",id);
 	}
 }

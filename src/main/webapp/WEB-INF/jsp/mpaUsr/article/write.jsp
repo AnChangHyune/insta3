@@ -51,7 +51,8 @@
 
 					<div class="form-control">
 					
-						
+						<label class="cursor-pointer label"> 작성자 </label>
+						<span class="text-light text-sm text-gray-400 ml-2">${rq.loginedMember.name}</span>
 						<label class="cursor-pointer label"> 제목 </label> <input
 							type="text" class="input input-bordered w-full" name="title"
 							placeholder="제목" maxlength="50" /> <label

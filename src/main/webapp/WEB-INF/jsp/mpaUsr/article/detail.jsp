@@ -27,22 +27,20 @@
 						</div>
 						<div class="ml-4">
 							<a href="detail?id=${article.id}"
-								style="display: block; font-weight: bolder;">${article.extra__writerName}</a>
+								style="display: block; font-weight: bolder;">${rq.loginedMember.name}</a>
 							<a href="detail?id=${article.id}"
 								style="display: block; font-size: 12px;">${article.regDate}</a>
 						</div>
 						<div class="flex-grow"></div>
-						<span> <i class="fas fa-heart"></i> <span
-							class="text-gray-400 text-light">120k</span>
-						</span>
+						
 					</div>
 
 					<div class="mt-4">
 						<div>${article.title}</div>
-
-
 						<div class="flex mt-8 mb-2">
-							<i class="far fa-heart">좋아요</i>
+							<span> <i class="fas fa-heart"></i> <span
+							class="text-gray-400 text-light">120k</span>
+							</span>
 							<div class="flex-grow"></div>
 							<span>Number : </span> <span class="text-gray-400 text-light">${article.id}</span>
 							<span class="ml-3"> </span> <span class="ml-3"> <span>Views:</span>
@@ -64,7 +62,6 @@
 			</div>
 
 			<div>
-				<h1 class="title-bar-type-2 px-4">댓글</h1>
 				<c:if test="${rq.notLogined}">
 					글 작성은 <a href="${rq.loginPageUri}">로그인</a> 후 이용해주세요.
 				</c:if>
@@ -100,36 +97,106 @@
 						<!-- 댓글 입력 끝 -->
 					</div>
 				</c:if>
-				<div>
-					<c:forEach items="${replies}" var="reply">
-						<div class="flex py-5 px-4">
-							<!-- 아바타 이미지 -->
-							<div class="flex-shrink-0">
-								<img
-									class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer"
-									alt="User avatar"
-									src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=200">
-							</div>
+				<hr />
+				<!-- 댓글 리스트 -->
+                <style>
+                .reply-list [data-id] {
+                  transition: background-color 1s;
+                }
+                .reply-list [data-id].focus {
+                  background-color:#efefef;
+                  transition: background-color 0s;
+                }
+                </style>
 
-							<div class="flex-grow px-1">
-								<div class="flex text-gray-400 text-light text-sm">
-									<spqn>${reply.extra__writerName}</spqn>
-									<span class="mx-1">·</span>
-									<spqn>${reply.updateDate}</spqn>
-								</div>
-								<div class="break-all">${reply.bodyForPrint}</div>
-								<div class="mt-1">
-									<span> <span>업</span> <span>5,600</span>
-									</span> <span class="ml-1"> <span>다</span> <span>5,600</span>
-									</span>
-								</div>
-							</div>
-						</div>
-						<div>
-							<a href="../reply/doDelete?id=${reply.id}"  class="btn btn-sm">삭제</a>
-						</div>
-					</c:forEach>
-				</div>
+                <script>
+                function ReplyList__goToReply(id) {
+                    setTimeout(function() {
+                        const $target = $('.reply-list [data-id="' + id + '"]');
+                        const targetOffset = $target.offset();
+                        $(window).scrollTop(targetOffset.top - 50);
+                        $target.addClass('focus');
+                        setTimeout(function() {
+                            $target.removeClass('focus');
+                        }, 1000);
+                    }, 1000);
+                }
+                function ReplyList__deleteReply(btn) {
+                    const $clicked = $(btn);
+                    const $target = $clicked.closest('[data-id]');
+                    const id = $target.attr('data-id');
+                    $clicked.text('삭제중...');
+                    $.post(
+                        '../reply/doDeleteAjax',
+                        {
+                            id: id
+                        },
+                        function(data) {
+                            if ( data.success ) {
+                                $target.remove();
+                            }
+                            else {
+                                if ( data.msg ) {
+                                    alert(data.msg);
+                                }
+                                $clicked.text('삭제실패!!');
+                            }
+                        },
+                        'json'
+                    );
+                }
+                if ( param.focusReplyId ) {
+                    ReplyList__goToReply(param.focusReplyId);
+                }
+                </script>
+
+                <div class="reply-list ml-6">
+                    <c:forEach items="${replies}" var="reply">
+                        <div data-id="${reply.id}" class="py-5 px-4">
+                            <div class="flex">
+                                <!-- 아바타 이미지 -->
+                                <div class="flex-shrink-0">
+                                    <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" alt="User avatar" src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=200">
+                                </div>
+
+                                <div class="flex-grow px-1">
+                                    <div class="flex text-gray-400 text-light text-sm">
+                                        <spqn>${reply.extra__writerName}</spqn>
+                                        <span class="mx-1">·</span>
+                                        <spqn>${reply.updateDate}</spqn>
+                                    </div>
+                                    <div class="break-all">
+                                        ${reply.bodyForPrint}
+                                    </div>
+                                    <div class="mt-1">
+                                        <span class="text-gray-400 cursor-pointer">
+                                            <span><i class="fas fa-thumbs-up"></i></span>
+                                            <span>5,600</span>
+                                        </span>
+                                        <span class="ml-1 text-gray-400 cursor-pointer">
+                                            <span><i class="fas fa-thumbs-down"></i></span>
+                                            <span>5,600</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="plain-link-wrap gap-3 mt-3 pl-14">
+                                <c:if test="${reply.memberId == rq.loginedMemberId}">
+                                    <a onclick="if ( confirm('정말 삭제하시겠습니까?') ) { ReplyList__deleteReply(this); } return false;" class="plain-link">
+                                        <span><i class="fas fa-trash-alt"></i></span>
+                                        <span>글 삭제</span>
+                                    </a>
+                                </c:if>
+                                 <c:if test="${reply.memberId == rq.loginedMemberId}">
+                                    <a href="../reply/modify?id=${reply.id}&redirectUri=${rq.encodedCurrentUri}" class="plain-link">
+                                        <span><i class="far fa-edit"></i></span>
+                                        <span>글 수정</span>
+                                    </a>
+                                </c:if>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
 			</div>
 		</div>
 	</div>

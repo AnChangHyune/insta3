@@ -71,7 +71,7 @@
 							<div style="width: 40px; height: 40px;">
 								<a href="detail?id=${article.id}"> <img class="rounded-full"
 									src="https://i.pravatar.cc/100?img=30"
-									alt="${article.extra.writerRealName}">
+									alt="${article.extra__writerName}">
 								</a>
 							</div>
 							<div class="ml-4">
@@ -84,7 +84,7 @@
 						</div>
 						<hr />
 						<div
-							class="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+							class="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
 							<a href="detail?id=${article.id}" class="row-span-7"> <img
 								class="rounded" src="https://i.pravatar.cc/250?img=37" alt="">
 							</a> <a
@@ -97,6 +97,9 @@
 						<div class="plain-link-wrap gap-3 mt-4 mb-4">
 							<a href="detail?id=${board.id}" class="plain-link" title="자세히 보기">
 								<span><i class="fas fa-info"></i></span> <span>자세히 보기</span>
+							</a> 
+							<a href="detail?id=${board.id}" class="plain-link" title="댓글">
+								<span><i class="fas fa-comment-dots"></i></span> <span>댓글 달기</span>
 							</a> 
 							<c:choose>
 								<c:when test="${article.extra__writerName != rq.loginedMember.nickname}">

@@ -7,21 +7,29 @@ import com.sbs.untactTeacher.util.Util;
 import lombok.Getter;
 
 public class Rq {
-	private Member loginedMember;
-	private String currentUri;
-	private String currentUrl;
-	private Map<String, String> paramMap;
 	@Getter
-	private boolean needToChangePassword;
+    private boolean isAjax;
+    private String currentUrl;
+    @Getter
+    private String currentUri;
+    private Member loginedMember;
+    private Map<String, String> paramMap;
+    @Getter
+    private boolean needToChangePassword;
 
-	public Rq(Member loginedMember, String currentUri, Map<String, String> paramMap, boolean needToChangePassword) {
-		this.loginedMember = loginedMember;
-		this.currentUrl = currentUri.split("\\?")[0];
-		this.currentUri = currentUri;
-		this.paramMap = paramMap;
-		this.needToChangePassword = needToChangePassword;
-	}
-
+    public Rq(boolean isAjax, Member loginedMember, String currentUri, Map<String, String> paramMap, boolean needToChangePassword) {
+        this.isAjax = isAjax;
+        this.loginedMember = loginedMember;
+        this.currentUrl = currentUri.split("\\?")[0];
+        this.currentUri = currentUri;
+        this.paramMap = paramMap;
+        this.needToChangePassword = needToChangePassword;
+    }
+    
+    public String getParamJsonStr() {
+        return Util.toJsonStr(paramMap);
+    }
+    
 	public boolean isLogined() {
 		return loginedMember != null;
 	}
