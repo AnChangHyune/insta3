@@ -27,7 +27,7 @@
 						</div>
 						<div class="ml-4">
 							<a href="detail?id=${article.id}"
-								style="display: block; font-weight: bolder;">${rq.loginedMember.name}</a>
+								style="display: block; font-weight: bolder;">${article.extra__writerName}</a>
 							<a href="detail?id=${article.id}"
 								style="display: block; font-size: 12px;">${article.regDate}</a>
 						</div>

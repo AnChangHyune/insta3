@@ -68,14 +68,14 @@
 					<!-- 게시물 아이템, first -->
 					<div class="px-4 py-8">
 						<div style="width: 100%; height: 100%; display: flex; align-items: center;">
-							<div style="width: 40px; height: 40px;">
+							<div style="width: 40px; height: 40px;" class="mb-4">
 								<a href="detail?id=${article.id}"> <img class="rounded-full"
 									src="https://i.pravatar.cc/100?img=30"
 									alt="${article.extra__writerName}">
 								</a>
 							</div>
 							<div class="ml-4">
-							   <a href="detail?id=${article.id}" style="display: block; font-weight: bolder;">${article.extra.writerRealName}</a>
+							   <a href="detail?id=${article.id}" style="display: block; font-weight: bolder;">${article.extra__writerName}</a>
 							   <a href="detail?id=${article.id}" style="display: block; font-size: 12px;">${article.regDate}</a>
 							</div>
 						</div>
@@ -109,7 +109,7 @@
 									<span><i class="fas fa-edit"></i></span> 
 									<span>수정</span>
 									</a> 
-									<a onclick="if ( !confirm('삭제하시겠습니까?') ) return false;" href="#" class="plain-link"> 
+									<a onclick="if ( !confirm('삭제하시겠습니까?') ) return false;" href="../article/doDelete?id=${board.id}" class="plain-link"> 
 									<span> <i class="fas fa-trash"></i>
 											<span>삭제</span>
 									</span>

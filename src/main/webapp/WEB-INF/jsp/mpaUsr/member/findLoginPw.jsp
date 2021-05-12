@@ -50,7 +50,7 @@
 			<div class="card-title">
 				<a href="javascript:history.back();" class="cursor-pointer"> <i
 					class="fas fa-chevron-left"></i>
-				</a> <span>아이디 찾기</span>
+				</a> <span>비밀번호 찾기</span>
 
 			</div>
 			<div class="px-4 py-8">

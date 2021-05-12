@@ -17,8 +17,8 @@
 
 		form.loginPwInput.value = form.loginPwInput.value.trim();
 
-		if (form.loginPwInput.value.length < 8) {
-			alert('비밀번호는 8자 이상으로 입력해주세요.');
+		if (form.loginPwInput.value.length == 0) {
+			alert('비밀번호를 입력해주세요.');
 			form.loginPwInput.focus();
 
 			return;
