@@ -20,9 +20,7 @@
 					<div
 						style="width: 100%; height: 100%; display: flex; align-items: center;">
 						<div style="width: 40px; height: 40px;">
-							<a href="detail?id=${article.id}"> <img class="rounded-full"
-								src="https://i.pravatar.cc/100?img=30"
-								alt="${article.extra__writerName}">
+							<a href="detail?id=${article.id}"> <img class="w-10 h-10 object-cover rounded-full" onerror="${article.writerProfileFallbackImgOnErrorHtmlAttr}" src="${article.writerProfileImgUri}" alt="">
 							</a>
 						</div>
 						<div class="ml-4">
@@ -53,13 +51,96 @@
 					<div class="mt-6">
 
 						<div class="mt-3">
-							<img class="rounded" src="https://i.pravatar.cc/250?img=37"
-								alt="">
+							<img class="rounded" onerror="${article.writerfileFallbackImgOnErrorHtmlAttr}" src="${article.writerfileImgUri}" alt="">
 						</div>
 						<div class="mt-3">${article.bodyForPrint}</div>
 					</div>
 				</div>
 			</div>
+			   <!-- 댓글 수정 모달 시작 -->
+            <style>
+            .section-reply-modify {
+                position:fixed;
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                background-color:rgba(0,0,0,0.5);
+                z-index:10;
+                display:none;
+                align-items:center;
+                justify-content:center;
+            }
+            .section-reply-modify > div {
+                background-color:white;
+                padding:20px 30px;
+                border-radius:30px;
+            }
+            </style>
+
+            <script>
+            function ReplyModify__showModal(el) {
+                const $div = $(el).closest('[data-id]');
+                const replyId = $div.attr('data-id');
+                const replyBody = $div.find('.reply-body').html();
+                $('.section-reply-modify [name="id"]').val(replyId);
+                $('.section-reply-modify [name="body"]').val(replyBody);
+                $('.section-reply-modify').css('display', 'flex');
+            }
+            function ReplyModify__hideModal() {
+                $('.section-reply-modify').hide();
+            }
+            let ReplyModify__submitFormDone = false;
+            function ReplyModify__submitForm(form) {
+                if ( ReplyModify__submitFormDone ) {
+                    return;
+                }
+                form.body.value = form.body.value.trim();
+                if ( form.body.value.length == 0 ) {
+                    alert('내용을 입력해주세요.');
+                    form.body.focus();
+                    return;
+                }
+                form.submit();
+                ReplyModify__submitFormDone = true;
+            }
+            </script>
+
+            <div class="section section-reply-modify hidden">
+                <div>
+                    <div class="container mx-auto">
+                        <form method="POST" enctype="multipart/form-data" action="../reply/doModify" onsubmit="ReplyModify__submitForm(this); return false;">
+                            <input type="hidden" name="id" value="" />
+                            <input type="hidden" name="redirectUri" value="${rq.currentUri}" />
+
+                            <div class="form-control">
+                                <label class="label">
+                                    내용
+                                </label>
+                                <textarea class="textarea textarea-bordered w-full h-24" placeholder="내용을 입력해주세요." name="body" maxlength="2000"></textarea>
+                            </div>
+
+                            <div class="mt-4 btn-wrap gap-1">
+                                <button type="submit" href="#" class="btn btn-primary btn-sm mb-1">
+                                    <span><i class="far fa-edit"></i></span>
+                                    &nbsp;
+                                    <span>수정</span>
+                                </button>
+
+                                <button type="button" onclick="history.back();" class="btn btn-sm mb-1" title="닫기">
+                                    <span><i class="fas fa-list"></i></span>
+                                    &nbsp;
+                                    <span>닫기</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- 댓글 수정 모달 끝 -->
+
+
+			
 
 			<div>
 				<c:if test="${rq.notLogined}">
@@ -68,7 +149,7 @@
 				<c:if test="${rq.logined}">
 					<div class="px-4 py-8">
 						<!-- 댓글 입력 시작 -->
-						<form method="POST" action="../reply/doWrite"
+						<form enctype="multipart/form-data" method="POST" action="../reply/doWrite"
 							class="relative flex py-4 text-gray-600 focus-within:text-gray-400">
 							<input type="hidden" name="relTypeCode" value="article" /> <input
 								type="hidden" name="relId" value="${article.id}" /> <input
@@ -153,6 +234,7 @@
                 <div class="reply-list ml-6">
                     <c:forEach items="${replies}" var="reply">
                         <div data-id="${reply.id}" class="py-5 px-4">
+                        	<script type="text/x-template" class="reply-body hidden">${reply.body}</script>
                             <div class="flex">
                                 <!-- 아바타 이미지 -->
                                 <div class="flex-shrink-0">
@@ -182,16 +264,16 @@
                             </div>
                             <div class="plain-link-wrap gap-3 mt-3 pl-14">
                                 <c:if test="${reply.memberId == rq.loginedMemberId}">
-                                    <a onclick="if ( confirm('정말 삭제하시겠습니까?') ) { ReplyList__deleteReply(this); } return false;" class="plain-link">
+                                    <a onclick="if ( confirm('정말 삭제하시겠습니까?') ) { ReplyList__deleteReply(this); } return false;" class="plain-link cursor-pointer">
                                         <span><i class="fas fa-trash-alt"></i></span>
-                                        <span>글 삭제</span>
+                                        <span>삭제</span>
                                     </a>
                                 </c:if>
                                  <c:if test="${reply.memberId == rq.loginedMemberId}">
-                                    <a href="../reply/modify?id=${reply.id}&redirectUri=${rq.encodedCurrentUri}" class="plain-link">
+                                    <button onclick="ReplyModify__showModal(this);" class="plain-link">
                                         <span><i class="far fa-edit"></i></span>
-                                        <span>글 수정</span>
-                                    </a>
+                                        <span>수정</span>
+                                    </button>
                                 </c:if>
                             </div>
                         </div>

@@ -57,6 +57,20 @@
 
 			return;
 		}
+		const deleteProfileImgFileInput = form["deleteFile__member__0__extra__profileImg__1"];
+	    if ( deleteProfileImgFileInput.checked ) {
+	        form["file__member__0__extra__profileImg__1"].value = '';
+	    }
+	    const maxSizeMb = 10;
+	    const maxSize = maxSizeMb * 1024 * 1024;
+	    const profileImgFileInput = form["file__member__0__extra__profileImg__1"];
+	    if (profileImgFileInput.value) {
+	        if (profileImgFileInput.files[0].size > maxSize) {
+	            alert(maxSizeMb + "MB 이하의 파일을 업로드 해주세요.");
+	            profileImgFileInput.focus();
+	            return;
+	        }
+	    }
 
 		form.cellphoneNo.value = form.cellphoneNo.value.trim();
 
@@ -94,7 +108,7 @@
 
 			</div>
 			<div class="px-4 py-8">
-				<form action="doModify" class="grid form-type-1"
+				<form action="doModify" enctype="multipart/form-data" class="grid form-type-1"
 					onsubmit=" MemberModify__submitForm(this); return false;"
 					method="POST">
 					<input type="hidden" name="loginPw" />
@@ -115,7 +129,17 @@
 						
 						<label class="label cursor-pointer">닉네임 </label> 
 						<input type="text" name="nickname" value="${rq.loginedMember.nickname}" class="input input-bordered w-full" maxlength="30" /> 
-						
+						 
+		                <label class="label">
+		                    프로필 이미지
+		                </label>
+		                <img class="w-40 h-40 mb-2 object-cover rounded-full" onerror="${rq.loginedMember.removeProfileImgIfNotExistsOnErrorHtmlAttr}" src="${rq.loginedMember.profileImgUri}" alt="">
+		                <div>
+                            <input type="checkbox" name="deleteFile__member__0__extra__profileImg__1" class="checkbox" value="Y">
+                            <span class="checkbox-mark"></span>
+                        </div>
+		                <input accept="image/gif, image/jpeg, image/png" type="file" name="file__member__0__extra__profileImg__1" placeholder="프로필 이미지를 선택해주세요." />
+            
 						<label class="label cursor-pointer"> 전화번호 </label> 
 						<input type="text" name="cellphoneNo" value="${rq.loginedMember.cellphoneNo}" class="input input-bordered w-full" maxlength="30" /> 
 						

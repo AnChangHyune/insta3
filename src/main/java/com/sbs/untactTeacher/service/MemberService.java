@@ -123,6 +123,35 @@ public class MemberService {
         return attrService.getValue("member", actorId, "extra", "needToChangePassword").equals("0") == false;
     }
 
+	public boolean isAdmin(Member actor) {
+        if ( actor == null ) {
+            return false;
+        }
+        return actor.getAuthLevel() == 7;
+    }
+	
+	public static String getAuthLevelName(Member member) {
+        switch (member.getAuthLevel()) {
+            case 7:
+                return "관리자";
+            case 3:
+                return "일반";
+            default:
+                return "유형정보없음";
+        }
+    }
+	
+	public static String getAuthLevelNameColor(Member member) {
+        switch (member.getAuthLevel()) {
+            case 7:
+                return "red";
+            case 3:
+                return "gray";
+            default:
+                return "";
+        }
+    }
+
 
 
 

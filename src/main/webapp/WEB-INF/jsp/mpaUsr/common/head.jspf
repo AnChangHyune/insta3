@@ -54,7 +54,7 @@ const param = ${rq.paramJsonStr};
 								<span>
 									<i class="fas fa-home"></i>
 								</span>
-								<span class="hidden sm:block" style="font-family: 'Bungee', cursive;">&nbsp;HOME</span>
+								<span class="hidden sm:block">&nbsp;HOME</span>
 							</a>
 						</li>
 						<li>
@@ -62,7 +62,7 @@ const param = ${rq.paramJsonStr};
 								<span>
 									<i class="fas fa-list"></i>
 								</span>
-								<span class="hidden md:block " style= "font-family: 'Bungee', cursive;">&nbsp;BOARD</span>
+								<span class="hidden md:block ">&nbsp;BOARD</span>
 							</a>
 							<div>
 								<ul>
@@ -71,7 +71,7 @@ const param = ${rq.paramJsonStr};
 											<span>
 												<i class="far fa-clipboard"></i>
 											</span>
-											<span style= "font-family: 'Bungee', cursive;">&nbsp;NOTICE</span>
+											<span>&nbsp;NOTICE</span>
 										</a>
 									</li>
 									<li>
@@ -79,7 +79,7 @@ const param = ${rq.paramJsonStr};
 											<span>
 												<i class="far fa-clipboard"></i>
 											</span>
-											<span style= "font-family: 'Bungee', cursive;">&nbsp;FREE</span>
+											<span>&nbsp;FREE</span>
 										</a>
 									</li>
 								</ul>
@@ -93,13 +93,13 @@ const param = ${rq.paramJsonStr};
 										<span>
 											<i class="fas fa-sign-out-alt"></i>
 										</span>
-										<span class="hidden md:block" style= "font-family: 'Bungee', cursive;">&nbsp;LOGOUT</span>
+										<span class="hidden md:block">&nbsp;LOGOUT</span>
 									</a>
 								</li>
 								<li>
 									<a href="../member/mypage" class="h-full flex items-center px-5">
-										<span><i class="fas fa-user-circle"></i></span>
-										<span class="hidden md:block" style="font-family: 'Black Han Sans', sans-serif;">&nbsp; ${rq.loginedMember.nickname}님</span>
+										 <img class="w-6 h-6 object-cover rounded-full" onerror="${rq.loginedMember.profileFallbackImgOnErrorHtmlAttr}" src="${rq.loginedMember.profileImgUri}" alt="">
+										<span class="hidden md:block">&nbsp; ${rq.loginedMember.nickname}님</span>
 									</a>
 								</li>
 						</c:if>
@@ -107,13 +107,13 @@ const param = ${rq.paramJsonStr};
 							<li>
 								<a href="${rq.loginPageUri}" class="h-full flex items-center px-5">
 									<span><i class="fas fa-sign-in-alt"></i></span>
-									<span class="hidden md:block" style="font-family: 'Bungee', cursive;">&nbsp;LOGIN</span>
+									<span class="hidden md:block">&nbsp;LOGIN</span>
 								</a>
 							</li>
 							<li>
 								<a href="../member/join" class="h-full flex items-center px-5">
 									<span><i class="fas fa-address-card"></i></span>
-									<span class="hidden md:block" style="font-family: 'Bungee', cursive;">&nbsp;JOIN</span>
+									<span class="hidden md:block">&nbsp;JOIN</span>
 								</a>
 							</li>
 						</c:if>

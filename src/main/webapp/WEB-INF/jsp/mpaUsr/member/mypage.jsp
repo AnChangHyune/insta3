@@ -17,7 +17,7 @@
 			<div class="px-4 py-8">
 				 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                     <a href="#" class="row-span-3 order-1">
-                        <img class="rounded-full" src="https://i.pravatar.cc/100?img=37" alt="">
+                       <img class="w-40 h-40 object-cover rounded-full" onerror="${rq.loginedMember.profileFallbackImgOnErrorHtmlAttr}" src="${rq.loginedMember.profileImgUri}" alt="">
                     </a>
 
                     <a href="#" class="order-2 hover:underline">
@@ -56,7 +56,7 @@
                     </a>
                 </div>
 
-                <div class="grid grid-item-float gap-3 mt-4">
+                <div class="grid grid-item-float gap-3 mt-4 ml-6">
                     <a href="../member/checkPassword?afterUri=${Util.getUriEncoded('../member/modify')}" class="text-blue-500 hover:underline">
                         <span>
                             <i class="fas fa-edit"></i>
@@ -71,9 +71,7 @@
                     </a>
                 </div>
             </div>
-            <div class="footer" style="width: 100%; height: 80px; background: #5555; margin-top:160px; color: #fff; text-align: center; font-size: 50px;">
-            	<a href="#">FOOTER</a>
-            </div>
+     
 			</div>
 		</div>
 

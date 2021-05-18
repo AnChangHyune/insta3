@@ -68,32 +68,25 @@
 					<!-- 게시물 아이템, first -->
 					<div class="px-4 py-8">
 						<div style="width: 100%; height: 100%; display: flex; align-items: center;">
-							<div style="width: 40px; height: 40px;" class="mb-4">
-								<a href="detail?id=${article.id}"> <img class="rounded-full"
-									src="https://i.pravatar.cc/100?img=30"
-									alt="${article.extra__writerName}">
+							<div style="width: 50px; height: 50px;" class="mt-2">
+								<a href="detail?id=${article.id}"> <img class="w-10 h-10  object-cover rounded-full"
+									onerror="${article.writerProfileFallbackImgOnErrorHtmlAttr}" src="${article.writerProfileImgUri}" alt="">
 								</a>
 							</div>
-							<div class="ml-4">
+							<div class="ml-2">
 							   <a href="detail?id=${article.id}" style="display: block; font-weight: bolder;">${article.extra__writerName}</a>
 							   <a href="detail?id=${article.id}" style="display: block; font-size: 12px;">${article.regDate}</a>
 							</div>
 						</div>
-						<div class="mt-3 mb-3">
+						<div class="mt-8 mb-4">
 						    <a href="detail?id=${article.id}">${article.title}</a>
 						</div>
 						<hr />
-						<div
-							class="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-							<a href="detail?id=${article.id}" class="row-span-7"> <img
-								class="rounded" src="https://i.pravatar.cc/250?img=37" alt="">
-							</a> <a
-								class="mt-3 hover:underline cursor-pointer col-span-1 sm:col-span-2 xl:col-span-3"
-								href="detail?id=${article.id}">
-								<div class="line-clamp-3">${article.body}</div>
-							</a>
+						<div class="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+							<a href="detail?id=${article.id}" class="row-span-7"> <img class="rounded" onerror="${article.writerfileFallbackImgOnErrorHtmlAttr}" src="${article.writerfileImgUri}" alt="">
+							</a> 
 						</div>
-
+						<div class="line-clamp-3 mb-12">${article.body}</div>
 						<div class="plain-link-wrap gap-3 mt-4 mb-4">
 							<a href="detail?id=${board.id}" class="plain-link" title="자세히 보기">
 								<span><i class="fas fa-info"></i></span> <span>자세히 보기</span>

@@ -1,14 +1,17 @@
 package com.sbs.untactTeacher.dto;
 
-import java.util.Map;
-
 import com.sbs.untactTeacher.util.Util;
-
 import lombok.Getter;
 
+import java.util.Map;
+
 public class Rq {
-	@Getter
+    @Getter
     private boolean isAjax;
+
+    @Getter
+    private boolean isAdmin;
+
     private String currentUrl;
     @Getter
     private String currentUri;
@@ -17,58 +20,63 @@ public class Rq {
     @Getter
     private boolean needToChangePassword;
 
-    public Rq(boolean isAjax, Member loginedMember, String currentUri, Map<String, String> paramMap, boolean needToChangePassword) {
+    public Rq(boolean isAjax, boolean isAdmin, Member loginedMember, String currentUri, Map<String, String> paramMap, boolean needToChangePassword) {
         this.isAjax = isAjax;
+        this.isAdmin = isAdmin;
         this.loginedMember = loginedMember;
         this.currentUrl = currentUri.split("\\?")[0];
         this.currentUri = currentUri;
         this.paramMap = paramMap;
         this.needToChangePassword = needToChangePassword;
     }
-    
+
     public String getParamJsonStr() {
         return Util.toJsonStr(paramMap);
     }
-    
-	public boolean isLogined() {
-		return loginedMember != null;
-	}
 
-	public boolean isNotLogined() {
-		return isLogined() == false;
-	}
+    public boolean isNotAdmin() {
+        return isAdmin == false;
+    }
 
-	public int getLoginedMemberId() {
-		if (isNotLogined())
-			return 0;
-		return loginedMember.getId();
-	}
+    public boolean isLogined() {
+        return loginedMember != null;
+    }
 
-	public Member getLoginedMember() {
-		return loginedMember;
-	}
+    public boolean isNotLogined() {
+        return isLogined() == false;
+    }
 
-	public String getEncodedCurrentUri() {
-		return Util.getUriEncoded(getCurrentUri());
-	}
+    public int getLoginedMemberId() {
+        if (isNotLogined()) return 0;
 
-	public String getCurrentUri() {
-		return currentUri;
-	}
+        return loginedMember.getId();
+    }
 
-	public String getLoginPageUri() {
-		String afterLoginUri;
+    public Member getLoginedMember() {
+        return loginedMember;
+    }
 
-		if (isLoginPage()) {
-			afterLoginUri = Util.getUriEncoded(paramMap.get("afterLoginUri"));
-		} else {
-			afterLoginUri = getEncodedCurrentUri();
-		}
+    public String getEncodedCurrentUri() {
+        return Util.getUriEncoded(getCurrentUri());
+    }
 
-		return "../member/login?afterLoginUri=" + afterLoginUri;
-	}
+    public String getCurrentUri() {
+        return currentUri;
+    }
 
-	private boolean isLoginPage() {
-		return currentUrl.equals("/mpaUsr/member/login");
-	}
+    public String getLoginPageUri() {
+        String afterLoginUri;
+
+        if (isLoginPage()) {
+            afterLoginUri = Util.getUriEncoded(paramMap.get("afterLoginUri"));
+        } else {
+            afterLoginUri = getEncodedCurrentUri();
+        }
+
+        return "../member/login?afterLoginUri=" + afterLoginUri;
+    }
+
+    private boolean isLoginPage() {
+        return currentUrl.equals("/mpaUsr/member/login");
+    }
 }

@@ -44,7 +44,7 @@
 
 			</div>
 			<div class="px-4 py-8">
-				<form action="doWrite" class="grid form-type-1"
+				<form action="doWrite" enctype="multipart/form-data" class="grid form-type-1"
 					onsubmit="ArticleWrite__submitForm(this); return false;"
 					method="POST">
 					<input type="hidden" name="boardId" value="${board.id}" />
@@ -59,7 +59,12 @@
 							class="cursor-pointer label"> 내용 </label>
 						<textarea class="textarea textarea-bordered w-full h-40"
 							name="body" placeholder="내용" maxlength="2000"></textarea>
-
+						
+		              	<label class="label">
+		                    첨부파일
+		                </label>
+		                <input type="file" name="file__article__0__extra__profileImg__1" placeholder="첨부파일 선택" />
+            
 						<div class="mt-4 btn-wrap gap-1">
 							<button type="submit" class="btn btn-sm btn-primary mb-1">
 								<span><i class="fas fa-save"></i></span> &nbsp; <span>작성</span>

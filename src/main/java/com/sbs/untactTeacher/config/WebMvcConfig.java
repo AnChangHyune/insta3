@@ -1,8 +1,10 @@
 package com.sbs.untactTeacher.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.sbs.untactTeacher.interceptor.BeforeActionInterceptor;
@@ -19,7 +21,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Autowired
 	NeedToLogoutInterceptor needToLogoutInterceptor;
-
+	
+	@Value("${custom.genFileDirPath}")
+	private String genFileDirPath;
+	 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(beforeActionInterceptor)
@@ -49,6 +54,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/mpaUsr/member/doFindLoginPw")
 				.addPathPatterns("/mpaUsr/member/login")
 				.addPathPatterns("/mpaUsr/member/doLogin")
+				.addPathPatterns("/mpaUsr/member/getLoginIdDup")
 				.addPathPatterns("/mpaUsr/member/join")
 				.addPathPatterns("/mpaUsr/member/doJoin")
 				.addPathPatterns("/mpaUsr/member/findLoginId")
@@ -56,4 +62,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/mpaUsr/member/findLoginPw")
 				.addPathPatterns("/mpaUsr/member/doFindLoginPw");
 	}
+	
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/gen/**").addResourceLocations("file:///" + genFileDirPath + "/")
+                .setCachePeriod(20);
+    }
 }
