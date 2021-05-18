@@ -32,4 +32,16 @@ public class Reply {
 
 		return bodyForPrint;
 	}
+
+	public String getWriterProfileImgUri() {
+		return "/common/genFile/file/member/" + memberId + "/extra/profileImg/1";
+	}
+
+	public String getWriterProfileFallbackImgUri() {
+		return "https://blog.kakaocdn.net/dn/cyOIpg/btqx7JTDRTq/1fs7MnKMK7nSbrM9QTIbE1/img.jpg";
+	}
+
+	public String getWriterProfileFallbackImgOnErrorHtmlAttr() {
+		return "this.src = '" + getWriterProfileFallbackImgUri() + "'";
+	}
 }

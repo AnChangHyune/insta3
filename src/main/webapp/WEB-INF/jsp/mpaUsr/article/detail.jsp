@@ -144,8 +144,10 @@
 
 			<div>
 				<c:if test="${rq.notLogined}">
-					글 작성은 <a href="${rq.loginPageUri}">로그인</a> 후 이용해주세요.
-				</c:if>
+                    <div class="text-center py-4">
+                        글 작성은 <a class="plain-link" href="${rq.loginPageUri}">로그인</a> 후 이용할 수 있습니다.
+                    </div>
+                </c:if>
 				<c:if test="${rq.logined}">
 					<div class="px-4 py-8">
 						<!-- 댓글 입력 시작 -->
@@ -153,11 +155,8 @@
 							class="relative flex py-4 text-gray-600 focus-within:text-gray-400">
 							<input type="hidden" name="relTypeCode" value="article" /> <input
 								type="hidden" name="relId" value="${article.id}" /> <input
-								type="hidden" name="redirectUri" value="${rq.currentUri}" /> <img
-								class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer"
-								alt="User avatar"
-								src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=200">
-
+								type="hidden" name="redirectUri" value="${rq.currentUri}" /> 
+							<img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" onerror="${rq.loginedMember.profileFallbackImgOnErrorHtmlAttr}" src="${rq.loginedMember.profileImgUri}" alt="">
 							<span class="absolute inset-y-0 right-0 flex items-center pr-6">
 								<button type="submit"
 									class="p-1 focus:outline-none focus:shadow-none hover:text-blue-500">
@@ -178,7 +177,7 @@
 						<!-- 댓글 입력 끝 -->
 					</div>
 				</c:if>
-				<hr />
+				
 				<!-- 댓글 리스트 -->
                 <style>
                 .reply-list [data-id] {
@@ -238,8 +237,9 @@
                             <div class="flex">
                                 <!-- 아바타 이미지 -->
                                 <div class="flex-shrink-0">
-                                    <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" alt="User avatar" src="https://images.unsplash.com/photo-1477118476589-bff2c5c4cfbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=200">
+									<img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" onerror="${reply.writerProfileFallbackImgOnErrorHtmlAttr}" src="${reply.writerProfileImgUri}" alt="">
                                 </div>
+
 
                                 <div class="flex-grow px-1">
                                     <div class="flex text-gray-400 text-light text-sm">
