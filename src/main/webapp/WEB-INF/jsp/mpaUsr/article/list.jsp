@@ -91,7 +91,7 @@
 							<a href="detail?id=${board.id}" class="plain-link" title="자세히 보기">
 								<span><i class="fas fa-info"></i></span> <span>자세히 보기</span>
 							</a> 
-							<a href="detail?id=${board.id}" class="plain-link" title="댓글">
+							<a href="detail?id=${article.id}" class="plain-link" title="댓글">
 								<span><i class="fas fa-comment-dots"></i></span> <span>댓글 달기</span>
 							</a> 
 							<c:choose>
