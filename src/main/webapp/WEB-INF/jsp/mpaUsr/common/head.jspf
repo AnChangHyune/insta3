@@ -122,8 +122,4 @@ const param = ${rq.paramJsonStr};
 			</div>
 
 		</header>
-		<div class="title-bar">
-			<div class="mx-auto container">
-				${pageTitle}
-			</div>
-		</div>
+		<div class="title-bar"></div>

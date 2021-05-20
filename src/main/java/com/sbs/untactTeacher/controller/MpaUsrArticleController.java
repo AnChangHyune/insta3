@@ -34,7 +34,7 @@ public class MpaUsrArticleController {
 
 	@Autowired
 	private GenFileService genFileService;
-
+	
 	@RequestMapping("/mpaUsr/article/detail")
 	public String showDetail(HttpServletRequest req, int id, String body) {
 		Article article = articleService.getForPrintArticleById(id);

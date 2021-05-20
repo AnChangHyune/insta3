@@ -315,8 +315,8 @@ body {
 .fullscroll-container section,
 .fullscroll-container footer {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    align-items:center;
     text-transform: uppercase;
     font-weight: 800;
 }
@@ -325,13 +325,27 @@ body {
     width: 100vw;
     height: 100vh;
     background-size: cover;
-    font-size: 8vw;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
-
+.newArticle{
+	width: 100%;
+	margin-left: 50px;
+}
+.newArticle-list{
+	width: 30%;
+}
+.title-list{
+  display: inline-block; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
+  height: 20px;
+}
+.regDate-list{
+	float: right;
+}
 .fullscroll-container .section-0 {
-    background-image: url("http://drive.google.com/uc?export=view&id=1mTY4SQyyquQoicNlH41Kj7Q5OajJfTwP");
+   
 }
 .fullscroll-container .section-1 {
     background-image: url("http://drive.google.com/uc?export=view&id=13akfi_sgDhGY734M5PKdr6HeYAdHqbTb");

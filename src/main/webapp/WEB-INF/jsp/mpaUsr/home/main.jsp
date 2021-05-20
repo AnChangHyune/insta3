@@ -88,7 +88,23 @@
 </script>
 <%@ include file="../common/head.jspf"%>
 <div id="fullscroll-0" class="fullscroll-container">
-	<section class="onepage section-0">full scroll-1</section>
+	<section class="onepage section-0">
+		<div class="newArticle">
+			<div class="mb-3">
+				<h1>최신글</h1>
+			</div>
+			<div class="newArticle-list">
+				<hr />
+				<c:forEach items="${articles}" var="article">
+					<div class="mt-8 mb-4">
+							<a href="../article/detail?id=${article.id}" class="title-list">${article.title}</a>
+							<a href="../article/detail?id=${article.id}" class="regDate-list">${article.regDate}</a>
+					</div>
+						
+				</c:forEach>
+			</div>
+		</div>
+	</section>
 	<section class="onepage section-1">full scroll-2</section>
 	<section class="onepage section-2">full scroll-3</section>
 	<section class="onepage section-3">full scroll-4</section>
