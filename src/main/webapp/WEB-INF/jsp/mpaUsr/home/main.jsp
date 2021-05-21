@@ -91,8 +91,13 @@
 	<section class="onepage section-0">
 		<div class="newArticle">
 		<div>
-			<div class="mb-3">
-				<h1>최신글</h1>
+			<div class="mb-3 flex items-center ">
+				<div>
+					<h1>최신글</h1>
+				</div>
+				<div>
+					<a href="/mpaUsr/article/list?boardId=1" style="float: right;"><i class="fas fa-plus"></i></a>
+				</div>
 			</div>
 			<div class="newArticle-list">
 				<hr />
@@ -106,9 +111,14 @@
 			</div>
 		</div>
 			<div>
-				<div class="mb-3">
+				<div class="mb-3 flex items-center ">
+				<div>
 					<h1>공지사항</h1>
 				</div>
+				<div>
+					<a href="/mpaUsr/article/list?boardId=1" style="float: right;"><i class="fas fa-plus"></i></a>
+				</div>
+			</div>
 				<div class="newArticle-list">
 					<hr />
 					<c:forEach items="${articles}" var="article">
