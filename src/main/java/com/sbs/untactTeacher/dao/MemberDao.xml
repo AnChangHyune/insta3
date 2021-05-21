@@ -5,7 +5,13 @@
 
 <mapper namespace="com.sbs.untactTeacher.dao.MemberDao">
 
-
+	<select id="getForPrintMembers" resultType="Member">
+        SELECT *
+        FROM `member` AS M
+        WHERE M.delStatus = 0
+        ORDER BY M.id DESC
+    </select>
+    
 	 <select id="getMemberByLoginId" resultType="Member">
         SELECT *
         FROM `member` AS M

@@ -1,5 +1,7 @@
 package com.sbs.untactTeacher.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,5 +21,7 @@ public interface MemberDao {
     int getLastInsertId();
 
     Member getMemberByNameAndEmail(@Param("name") String name, @Param("email") String email);
+
+	List<Member> getForPrintMembers();
 
 }
