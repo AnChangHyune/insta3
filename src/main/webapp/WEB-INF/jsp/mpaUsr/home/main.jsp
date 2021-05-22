@@ -89,18 +89,23 @@
 <%@ include file="../common/head.jspf"%>
 <div id="fullscroll-0" class="fullscroll-container">
 	<section class="onepage section-0">
+	
+		
+	</section>
+	<section class="onepage section-1">
 		<div class="newArticle">
 		<div>
-			<div class="mb-3 flex items-center ">
-				<div>
-					<h1>최신글</h1>
+			<div class="mb-3 flex items-center">
+				<div class="shadow-wrap4">
+				 		 <h1 class="citylights">new</h1>
 				</div>
 				<div>
 					<a href="/mpaUsr/article/list?boardId=1" style="float: right;"><i class="fas fa-plus"></i></a>
 				</div>
 			</div>
+			
 			<div class="newArticle-list">
-				<hr />
+			<hr />
 				<c:forEach items="${articles}" var="article">
 					<div class="mt-8 mb-4">
 							<a href="../article/detail?id=${article.id}" class="title-list">${article.title}</a>
@@ -131,12 +136,19 @@
 				</div>
 			</div>
 		</div>
-		
 	</section>
-	<section class="onepage section-1">full scroll-2</section>
 	<section class="onepage section-2">full scroll-3</section>
 	<section class="onepage section-3">full scroll-4</section>
-	<footer class="section-footer">this is footer</footer>
+	<footer class="section-footer">
+		<div>
+			insta
+		</div>
+		<div>
+			<a href="https://twitter.com/minimalmonkey" class="icon-button twitter"><i class="icon-twitter"></i><span></span></a>
+			<a href="https://facebook.com" class="icon-button facebook"><i class="icon-facebook"></i><span></span></a>
+			<a href="https://plus.google.com" class="icon-button google-plus"><i class="icon-google-plus"></i><span></span></a>
+		</div>
+	</footer>
 </div>
 <nav id="fullscroll-nav">
 	<ul>
